@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  testeveresize:
+    Properties:
+      CodeUri: s3://eve-imageresize-lambda-deploy/fb4df81baadf10d70a480ff51964e392
+      Description: ''
+      Events:
+        Api1:
+          Properties:
+            Method: ANY
+            Path: /test-eve-resize
+          Type: Api
+      Handler: index.handler
+      MemorySize: 128
+      Role: arn:aws:iam::569716481916:role/testresize-eve-lambda-role
+      Runtime: nodejs6.10
+      Timeout: 3
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

@@ -47,11 +47,11 @@
       "Accept-Encoding": "gzip, deflate, sdch"
     },
     "pathParameters": {
-      "proxy": "genesis_assets/products/mattress/d/100x100/image.webp"
+      "proxy": "genesis_assets/products/mattress/s100x100/image.webp"
     },
     "httpMethod": "POST",
     "stageVariables": {
       "baz": "qux"
     },
-    "path": "/genesis_assets/products/mattress/100x100/image.webp"
+    "path": "/genesis_assets/products/mattress/s100x100/image.webp"
 }

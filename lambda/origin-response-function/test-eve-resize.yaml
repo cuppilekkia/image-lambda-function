@@ -2,14 +2,19 @@
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An AWS Serverless Specification template describing your function.
 Resources:
-  ImageResizetestOriginResponseFunction1IWS6YUPB1ORY:
+  testeveresize:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
       Runtime: nodejs6.10
       CodeUri: .
       Description: ''
-      MemorySize: 512
-      Timeout: 5
-      Role: >-
-        arn:aws:iam::569716481916:role/service-role/ImageResize-test-EdgeLambdaRole-1W0YARE9N7CZ5
+      MemorySize: 128
+      Timeout: 3
+      Role: 'arn:aws:iam::569716481916:role/testresize-eve-lambda-role'
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /test-eve-resize
+            Method: ANY
