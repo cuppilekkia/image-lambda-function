@@ -4,6 +4,7 @@ phases:
     commands:
       - cd lambda/imageresize-function
       - npm install
+      - find ./node_modules/* -mtime +10950 -exec touch {} \;
       - aws cloudformation package --template-file function-template.yaml --s3-bucket eve-imageresize-lambda-deploy
                                    --output-template-file outputSamTemplate.yaml
 artifacts:
