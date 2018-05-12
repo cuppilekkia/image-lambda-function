@@ -11,6 +11,8 @@ Resources:
       Description: ''
       MemorySize: 256
       Timeout: 3
+      Policies:
+        - AmazonS3FullAccess
       Events:
         Api1:
           Type: Api
