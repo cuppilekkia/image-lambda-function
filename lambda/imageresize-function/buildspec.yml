@@ -1,0 +1,12 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - npm install
+      - aws cloudformation package --template-file function-template.yaml --s3-bucket eve-imageresize-lambda-deploy
+                                   --output-template-file outputSamTemplate.yaml
+artifacts:
+  type: zip
+  files:
+    - function-template.yaml
+    - outputSamTemplate.yaml
