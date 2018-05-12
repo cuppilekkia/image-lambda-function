@@ -2,7 +2,7 @@
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An AWS Serverless Specification template describing your function.
 Resources:
-  testeveresize:
+  testimageresizeevetesteveresizeAVL1ITL7RWOG:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
@@ -16,5 +16,9 @@ Resources:
         Api1:
           Type: Api
           Properties:
-            Path: /test-eve-resize
+            Path: '/{proxy+}'
             Method: ANY
+      Environment:
+        Variables:
+          BUCKET: test-imageresize-eve
+          URL: 'http://test-imageresize-eve.s3-website-us-west-2.amazonaws.com'

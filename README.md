@@ -1,28 +1,81 @@
-From project root folder, run the following commands:
+**Image Resize service**
+---
 
-The Dockerfile is configured to download Amazon Linux and install Node.js 6.10 along with dependencies.
+Services:
+--
+- Lambda function
+- API Gateway
 
-```docker build --tag amazonlinux:nodejs .```
 
-Update AWS Account ID value in BUCKET variables used in code snippet 2 above. The AWS CloudFormation template will create the bucket in pattern ‘image-resize-${AWS::AccountId}-us-east-1′.
+This service requires an S3 Bucket as a source of images, set as Static Hosting, with the following 
 
-For example, if your AWS Account ID is 123456789012, then BUCKET variable would be updated to ‘image-resize-123456789012-us-east-1’. 
+bucket policy:
+-
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AddPerm",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+        }
+    ]
+}
+```
 
-If you already have an S3 bucket then update this variable accordingly and modify your CloudFront distribution Origin settings to reflect the same.
-Install the sharp and querystring module dependencies and compile the ‘Origin-Response’ function.
+redirect rule:
+-
+```
+<RoutingRules>
+  <RoutingRule>
+    <Condition>
+      <KeyPrefixEquals/>
+      <HttpErrorCodeReturnedEquals>404</HttpErrorCodeReturnedEquals>
+    </Condition>
+    <Redirect>
+      <Protocol>https</Protocol>
+      <HostName>API_GATEWAY_HOSTNAME</HostName>
+      <ReplaceKeyPrefixWith>prod/resize?key=</ReplaceKeyPrefixWith>
+      <HttpRedirectCode>307</HttpRedirectCode>
+    </Redirect>
+  </RoutingRule>
+</RoutingRules>
+```
 
-```docker run --rm --volume ${PWD}/lambda/origin-response-function:/build amazonlinux:nodejs /bin/bash -c "source ~/.bashrc; npm init -f -y; npm install sharp --save; npm install querystring --save; npm install --only=prod"```
+ENV variables for BUCKET_NAME and URL are currently saved in the `function-template.yaml`
 
-Install the querystring module dependencies and compile the ‘Viewer-Request’ function.
+---
+The image is requested in the folder on S3 that contains the resized copy like:
 
-```docker run --rm --volume ${PWD}/lambda/viewer-request-function:/build amazonlinux:nodejs /bin/bash -c "source ~/.bashrc; npm init -f -y; npm install querystring --save; npm install --only=prod"```
+`path-to-image/s200x100/image.[jpg|webp]`
 
-Package the ‘Origin-Response’ function.
+The original image must be in the parent folder like:
 
-```mkdir -p dist && cd lambda/origin-response-function && zip -FS -q -r ../../dist/origin-response-function.zip * && cd ../..```
+`path-to-image/image.jpg`
 
-Package the ‘Viewer-Request’ function.
+--
 
-```mkdir -p dist && cd lambda/viewer-request-function && zip -FS -q -r ../../dist/viewer-request-function.zip * && cd ../..```
+The 'resize' folder can have the following pattern:
+- **s**200x100 (resize and crop with provided width and height)
+- **w**200 (resize to provided width, keep ratio)
+- **h**200 (resize to provided height, keep ratio)
 
-From AWS console, create S3 bucket in us-east-1 region to hold the deployment files and upload the zip files created in above steps. These would be referenced from the CloudFormation template during deployment.
+--
+
+Provess:
+
+The file is requested to S3, when that size is not available the request gets redirected to the API gateway which fires the lambda function associated to perform the resize/crop/format on the original image. 
+
+*If a WEBP format is requested, the file will be generated always from the original JPG version and saved for further requests.*
+
+Then the new file is saved in the correct folder into the S3 bucket itself and returned to the user.
+
+---
+
+TODO:
+-
+- Complete the docs including the process to package/deploy the stack
+- Build a pipeline to CI/CD
