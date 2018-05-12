@@ -9,9 +9,8 @@ Resources:
       Runtime: nodejs6.10
       CodeUri: .
       Description: ''
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 3
-      Role: 'arn:aws:iam::569716481916:role/testresize-eve-lambda-role'
       Events:
         Api1:
           Type: Api
