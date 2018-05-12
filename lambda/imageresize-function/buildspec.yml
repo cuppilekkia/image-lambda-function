@@ -10,5 +10,5 @@ phases:
 artifacts:
   type: zip
   files:
-    - function-template.yaml
-    - outputSamTemplate.yaml
+    - lambda/imageresize-function/function-template.yaml
+    - lambda/imageresize-function/outputSamTemplate.yaml
