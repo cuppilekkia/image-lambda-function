@@ -107,12 +107,13 @@ exports.handler = (event, context, callback) => {
         StorageClass: 'STANDARD'
       }).promise()
       .catch(err => callback(err)))
-    .then(() => callback(null, {
-      statusCode: '301',
-      headers: {
-        'location': `${URL}/${key}`
-      },
-      body: '',
-    }))
+    .then(() => {
+      // generate a binary response with resized image
+      response.status = 200;
+      response.body = buffer.toString('base64');
+      response.bodyEncoding = 'base64';
+      response.headers['content-type'] = [{ key: 'Content-Type', value: 'image/' + requiredFormat }];
+      callback(null, response);
+    })
     .catch(err => callback(err))
 };
