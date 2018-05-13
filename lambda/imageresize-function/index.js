@@ -108,7 +108,7 @@ exports.handler = (event, context, callback) => {
       }).promise()
       .catch(err => callback(err)))
     .then(() => callback(null, {
-      statusCode: '301',
+      statusCode: '200',
       headers: {
         'location': `${URL}/${key}`
       },
