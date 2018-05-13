@@ -9,6 +9,7 @@ const Sharp = require('sharp');
 // set the S3 and API GW endpoints
 const BUCKET = process.env.BUCKET;
 const URL = process.env.URL;
+const CDN = process.env.CDN;
 
 // set allowed sizes
 // const ALLOWED_DIMENSIONS = new Set();
@@ -110,7 +111,7 @@ exports.handler = (event, context, callback) => {
     .then(() => callback(null, {
       statusCode: '301',
       headers: {
-        'location': `${URL}/${key}`
+        'location': `${CDN}/${key}`
       },
       body: '',
     }))
