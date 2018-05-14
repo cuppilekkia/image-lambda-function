@@ -5,11 +5,12 @@ const S3 = new AWS.S3({
   signatureVersion: 'v4',
 });
 const Sharp = require('sharp');
+const cloudfront = new AWS.CloudFront();
 
 // set the S3 and API GW endpoints
 const BUCKET = process.env.BUCKET;
 const URL = process.env.URL;
-const CDN = process.env.CDN;
+const CDN_ID = process.env.CDN_ID;
 
 // set allowed sizes
 // const ALLOWED_DIMENSIONS = new Set();
@@ -108,13 +109,30 @@ exports.handler = (event, context, callback) => {
         StorageClass: 'STANDARD'
       }).promise()
       .catch(err => callback(err)))
-    .then(() => callback(null, {
-      statusCode: '301',
-      headers: {
-        'location': `${URL}/${key}`,
-        'Cache-Control': 'no-cache'
-      },
-      body: '',
-    }))
+    .then(() => {
+      let params = {
+        DistributionId: CDN_ID,
+        InvalidationBatch: {
+          CallerReference: 'imageresize-lambda-' + Date.now(),
+          Paths: {
+            Quantity: 1,
+            Items: [
+              '/' + key
+            ]
+          }
+        }
+      }
+      cloudfront.createInvalidation(params, (err, data) => {
+        if (err) callback(err);
+      });
+      callback(null, {
+        statusCode: '301',
+        headers: {
+          'location': `${URL}/${key}`,
+          'Cache-Control': 'no-cache'
+        },
+        body: '',
+      })
+    })
     .catch(err => callback(err))
 };
