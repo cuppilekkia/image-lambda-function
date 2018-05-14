@@ -13,7 +13,7 @@ Resources:
       Timeout: 3
       Policies:
         - AmazonS3FullAccess
-          PolicyName: LambdaCreateInvalidationRole
+        - PolicyName: LambdaCreateInvalidationRole
           PolicyDocument: 
             Version: '2012-10-17'
             Statement: 
