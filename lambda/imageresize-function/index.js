@@ -112,7 +112,7 @@ exports.handler = (event, context, callback) => {
       statusCode: '301',
       headers: {
         'location': `${URL}/${key}`,
-        'Cache-Control': 'max-age=0'
+        'Cache-Control': 'no-cache'
       },
       body: '',
     }))
