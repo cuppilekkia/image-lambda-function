@@ -15,10 +15,11 @@ Resources:
         - AmazonS3FullAccess
         - PolicyName: LambdaCreateInvalidationRole
           PolicyDocument: 
-            Version: 2012-10-17
+            Version: '2012-10-17'
             Statement: 
               - Effect: Allow
-                Action: cloudfront:CreateInvalidation
+                Action: 
+                  - 'cloudfront:CreateInvalidation'
                 Resource: '*'
       Events:
         Api1:
