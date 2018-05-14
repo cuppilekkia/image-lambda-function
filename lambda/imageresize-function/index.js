@@ -109,9 +109,13 @@ exports.handler = (event, context, callback) => {
       }).promise()
       .catch(err => callback(err)))
     .then(() => callback(null, {
-      statusCode: '307',
+      statusCode: '301',
       headers: {
-        'location': `${CDN}/${key}`
+        'location': `${URL}/${key}`,
+        'cache-control': [{
+          key: 'Cache-Control',
+          value: 'max-age=0'
+        }]
       },
       body: '',
     }))
