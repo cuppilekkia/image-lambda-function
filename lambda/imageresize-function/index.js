@@ -111,7 +111,7 @@ exports.handler = (event, context, callback) => {
     .then(() => callback(null, {
       statusCode: '301',
       headers: {
-        'location': `${CDN}/${key}`,
+        'location': `${URL}/${key}`,
         'Cache-Control': 'max-age=0'
       },
       body: '',
