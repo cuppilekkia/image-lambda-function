@@ -26,7 +26,7 @@ Resources:
           URL: 'http://test-imageresize-eve.s3-website-us-west-2.amazonaws.com'
           CDN_ID: 'E1SZ9OG862IQUR'
   LambdaCreateInvalidationRole:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
       PolicyName: LambdaCreateInvalidationRole
       PolicyDocument: 
