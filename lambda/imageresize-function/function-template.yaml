@@ -20,7 +20,8 @@ Resources:
               - Effect: Allow
                 Action: 
                   - 'cloudfront:CreateInvalidation'
-                Resource: '*'
+                Resource: 
+                  - '*'
       Events:
         Api1:
           Type: Api
