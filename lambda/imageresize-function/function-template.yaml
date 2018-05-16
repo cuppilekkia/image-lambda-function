@@ -13,7 +13,7 @@ Resources:
       Timeout: 3
       Policies:
         - AmazonS3FullAccess
-        - !Ref LambdaCreateInvalidationRole
+        - !Ref LambdaCreateInvalidationPolicy
       Events:
         Api1:
           Type: Api
@@ -25,12 +25,12 @@ Resources:
           BUCKET: test-imageresize-eve
           URL: 'http://test-imageresize-eve.s3-website-us-west-2.amazonaws.com'
           CDN_ID: 'E1SZ9OG862IQUR'
-  LambdaCreateInvalidationRole:
-    Type: AWS::IAM::ManagedPolicy
+  LambdaCreateInvalidationPolicy:
+    Type: AWS::IAM::Policy
     Properties:
-      PolicyName: LambdaCreateInvalidationRole
+      PolicyName: LambdaCreateInvalidationPolicy
       PolicyDocument: 
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement: 
           - Effect: Allow
             Action: 'cloudfront:CreateInvalidation'
