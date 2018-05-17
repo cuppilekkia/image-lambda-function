@@ -11,7 +11,7 @@ Resources:
       Description: ''
       MemorySize: 256
       Timeout: 3
-      Role: !GetAtt IAMRole.Arn
+      Role: !GetAtt ImageResizeLambdaRole.Arn
       Events:
         Api1:
           Type: Api
@@ -23,7 +23,7 @@ Resources:
           BUCKET: test-imageresize-eve
           URL: 'http://test-imageresize-eve.s3-website-us-west-2.amazonaws.com'
           CDN_ID: 'E1SZ9OG862IQUR'
-  IAMRole:
+  ImageResizeLambdaRole:
     Type: AWS::IAM::Role
     Properties: 
       AssumeRolePolicyDocument:
@@ -36,14 +36,11 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
-  LambdaCreateInvalidationPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: LambdaCreateInvalidationPolicy
-      PolicyDocument: 
-        Version: '2012-10-17'
-        Role: !GetAtt IAMRole.Arn
-        Statement: 
-          - Effect: Allow
-            Action: 'cloudfront:CreateInvalidation'
-            Resource: '*'
+      Policies:
+        - PolicyName: LambdaCreateInvalidationPolicy
+          PolicyDocument: 
+            Version: 2012-10-17
+            Statement: 
+              - Effect: Allow
+                Action: 'cloudfront:CreateInvalidation'
+                Resource: '*'
