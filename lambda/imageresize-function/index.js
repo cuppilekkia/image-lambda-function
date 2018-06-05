@@ -8,7 +8,8 @@ const Sharp = require('sharp');
 const cloudfront = new AWS.CloudFront();
 
 // set the S3 and API GW endpoints
-const BUCKET = process.env.BUCKET;
+const SOURCE_BUCKET = process.env.SOURCE_BUCKET;
+const DEST_BUCKET = process.env.DEST_BUCKET;
 const URL = process.env.URL;
 const CDN_ID = process.env.CDN_ID;
 
@@ -92,7 +93,7 @@ exports.handler = (event, context, callback) => {
 
   // get S3 object
   S3.getObject({
-      Bucket: BUCKET,
+      Bucket: SOURCE_BUCKET,
       Key: originalKey
     }).promise()
     .then(data => Sharp(data.Body)
@@ -102,7 +103,7 @@ exports.handler = (event, context, callback) => {
     )
     .then(buffer => S3.putObject({
         Body: buffer,
-        Bucket: BUCKET,
+        Bucket: DEST_BUCKET,
         ContentType: 'image/' + requiredFormat,
         CacheControl: 'max-age=31536000',
         Key: key,

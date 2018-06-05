@@ -20,7 +20,8 @@ Resources:
             Method: ANY
       Environment:
         Variables:
-          BUCKET: test-imageresize-eve
+          SOURCE_BUCKET: original-imageresize-eve
+          DEST_BUCKET: test-imageresize-eve
           URL: 'http://test-imageresize-eve.s3-website-us-west-2.amazonaws.com'
           CDN_ID: 'E1SZ9OG862IQUR'
   ImageResizeLambdaRole:
