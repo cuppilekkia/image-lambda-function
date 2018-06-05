@@ -10,7 +10,7 @@ Resources:
       CodeUri: .
       Description: ''
       MemorySize: 256
-      Timeout: 3
+      Timeout: 5
       Role: !GetAtt ImageResizeLambdaRole.Arn
       Events:
         Api1:
