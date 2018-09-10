@@ -6,13 +6,11 @@ const S3 = new AWS.S3({
   signatureVersion: 'v4',
 });
 const Sharp = require('sharp');
-const cloudfront = new AWS.CloudFront();
 
 // set the S3 and API GW endpoints
 const SOURCE_BUCKET = process.env.SOURCE_BUCKET;
 const DEST_BUCKET = process.env.DEST_BUCKET;
 const URL = process.env.URL;
-const CDN_ID = process.env.CDN_ID;
 
 // set allowed sizes
 // const ALLOWED_DIMENSIONS = new Set();
@@ -36,7 +34,7 @@ exports.handler = (event, context, callback) => {
     return;
   }
 
-  // requested resize direction 
+  // requested resize direction
   // s: width and height | w: width | h: height
   let direction = match[2];
   // requested size
@@ -112,21 +110,6 @@ exports.handler = (event, context, callback) => {
       }).promise()
       .catch(err => callback(err)))
     .then(() => {
-      let params = {
-        DistributionId: CDN_ID,
-        InvalidationBatch: {
-          CallerReference: 'imageresize-lambda-' + Date.now(),
-          Paths: {
-            Quantity: 1,
-            Items: [
-              '/' + key
-            ]
-          }
-        }
-      }
-      cloudfront.createInvalidation(params, (err, data) => {
-        if (err) callback(err);
-      });
       callback(null, {
         statusCode: '301',
         headers: {

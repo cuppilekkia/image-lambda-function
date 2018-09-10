@@ -5,7 +5,7 @@ phases:
       - cd lambda/imageresize-function
       - npm install
       - find ./node_modules/* -mtime +10950 -exec touch {} \;
-      - aws cloudformation package --template-file function-template.yaml --s3-bucket eve-imageresize-lambda-deploy
+      - aws cloudformation package --template-file function-template.yaml --s3-bucket eve-lambda
                                    --output-template-file outputSamTemplate.yaml
 artifacts:
   type: zip
