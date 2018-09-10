@@ -106,7 +106,7 @@ exports.handler = (event, context, callback) => {
         ContentType: 'image/' + requiredFormat,
         CacheControl: 'max-age=31536000',
         Key: key,
-        StorageClass: 'STANDARD'
+        StorageClass: 'REDUCED_REDUNDANCY'
       }).promise()
       .catch(err => callback(err)))
     .then(() => {
