@@ -4,7 +4,7 @@ phases:
     commands:
       - npm install
       - find ./node_modules/* -mtime +10950 -exec touch {} \;
-      - aws cloudformation package --template-file function-template.yaml --s3-bucket eve-lambda/image-resize
+      - aws cloudformation package --template-file function-template.yaml --s3-bucket eve-lambda
                                    --output-template-file outputSamTemplate.yaml
 artifacts:
   type: zip
