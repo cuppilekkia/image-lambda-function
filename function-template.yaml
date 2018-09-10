@@ -22,7 +22,7 @@ Resources:
         Variables:
           SOURCE_BUCKET: images.evemattress.co.uk
           DEST_BUCKET: assets.evemattress.co.uk
-          URL: 'http://assets.evemattress.co.uk'
+          URL: 'https://assets.evemattress.co.uk'
   ImageResizeLambdaRole:
     Type: AWS::IAM::Role
     Properties:
