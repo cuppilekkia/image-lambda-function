@@ -9,8 +9,8 @@ Resources:
       Runtime: nodejs8.10
       CodeUri: .
       Description: ''
-      MemorySize: 256
-      Timeout: 5
+      MemorySize: 512
+      Timeout: 8
       Role: !GetAtt ImageResizeLambdaRole.Arn
       Events:
         Api1:
