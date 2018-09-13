@@ -71,13 +71,16 @@ exports.handler = (event, context, callback) => {
 
   // determine file format
   let extension = filename.split('.')[1];
-  let requiredFormat = extension == "jpg" ? "jpeg" : extension;
 
+  let requiredFormat = extension == "jpg" ? "jpeg" : extension;
   // set original jpg filename
   let requiredFile = filename.split('.')[0] + '.jpg';
 
+  let originalFolder = folder.split('/');
+  originalFolder.pop();
+  originalFolder = originalFolder.join('/');
   // original file in the bucket
-  let originalKey = `${folder}/${requiredFile}`;
+  let originalKey = `${originalFolder}/${requiredFile}`;
 
   // check only allowed sizes
   //
