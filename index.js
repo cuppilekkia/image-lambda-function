@@ -74,10 +74,10 @@ exports.handler = (event, context, callback) => {
 
   let requiredFormat = extension == "jpg" ? "jpeg" : extension;
   // set original jpg filename
+  let requiredFile = filename.split('.')[0] + '.jpg';
+
   if (['jpg', 'png'].includes(extension)) {
-    let requiredFile = filename;
-  } else {
-    let requiredFile = filename.split('.')[0] + '.jpg';
+    requiredFile = filename;
   }
 
   let originalFolder = folder.split('/');
