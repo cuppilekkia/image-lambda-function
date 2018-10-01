@@ -115,7 +115,14 @@ exports.handler = (event, context, callback) => {
         Key: key,
         StorageClass: 'REDUCED_REDUNDANCY'
       }).promise()
-      .catch(err => callback(err)))
+      .catch(err => callback(null, {
+        statusCode: '404',
+        headers: {},
+        body: {
+          message: 'Error saving the new file.',
+          error: JSON.stringify(err)
+        }
+      })))
     .then(() => {
       callback(null, {
         statusCode: '301',
@@ -126,5 +133,12 @@ exports.handler = (event, context, callback) => {
         body: '',
       })
     })
-    .catch(err => callback(err))
+    .catch(err => callback(null, {
+      statusCode: '404',
+      headers: {},
+      body: {
+        message: 'Original file not found.',
+        error: JSON.stringify(err)
+      },
+    }))
 };
